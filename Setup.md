@@ -1,88 +1,40 @@
-# IntelliJ IDEA Setup Guide
-
-Welcome to the setup guide for IntelliJ IDEA Community Edition. This guide will help you install and configure your development environment.
-
-## Table of Contents
-- [Download Instructions](#download-instructions)
-- [Installation Steps](#installation-steps)
-- [First-Time Setup](#first-time-setup)
-- [Java Development Kit Setup](#java-development-kit-setup)
-- [Troubleshooting](#troubleshooting)
+# Simple IntelliJ IDEA Setup Guide
 
 ## Download Instructions
 
-1. Visit the [JetBrains download page](https://www.jetbrains.com/idea/download/)
-2. Click on "Download" under "Community Edition"
-3. Select your operating system version (Windows/Mac/Linux)
+Visit [JetBrains Download Page](https://www.jetbrains.com/idea/download/) and click "Download" under Community Edition for your operating system.
 
 ## Installation Steps
 
-### Windows Installation
-1. Run the downloaded .exe file
-2. Click "Next" on the welcome screen
-3. Choose installation location (default is recommended)
-4. Select the following options:
-   - Create Desktop Shortcut
-   - Update PATH variable
-   - .java, .groovy, .kt association
-5. Click "Next" and then "Install"
+### Windows Users
+1. Run the downloaded `.exe` file
+2. Click "Next" following the default options
+3. Complete installation
 
-### Mac Installation
-1. Open the downloaded .dmg file
-2. Drag IntelliJ IDEA icon to the Applications folder
-3. Open IntelliJ from Applications
+### Mac Users
+1. Open the downloaded `.dmg` file
+2. Drag IntelliJ IDEA icon to Applications folder
+3. Open from Applications
 
-### Linux Installation
+### Linux Users
 1. Extract the downloaded file
-2. Run `idea.sh` from the bin sub-directory
+2. Run `idea.sh` from the bin directory
 
 ## First-Time Setup
 
 1. Launch IntelliJ IDEA
-2. Accept the privacy policy and user agreement
+2. Accept the privacy policy
 3. Choose UI theme (Dark/Light)
-4. Skip remaining settings (we'll configure them in class)
+4. You're ready to code!
 
-## Java Development Kit Setup
+## Note About JDK
+IntelliJ IDEA comes with a bundled JDK (Java Development Kit), so you can start coding immediately without additional installations.
 
-1. Download JDK 17:
-   - Visit [Eclipse Adoptium](https://adoptium.net/)
-   - Download JDK 17 for your operating system
-2. Install JDK 17 using default settings
-3. IntelliJ should automatically detect the installed JDK
-
-## Troubleshooting
-
-### Common Issues
-
-#### JDK Not Detected
-1. Go to File → Project Structure → SDKs
-2. Click + button
-3. Add JDK
-4. Navigate to your JDK installation directory
-
-#### Performance Issues
-1. Go to File → Settings → Memory Settings
-2. Adjust memory allocation based on your system:
-   - 8GB RAM: Set to 2048MB
-   - 16GB RAM: Set to 4096MB
-
-### Getting Help
-
-If you encounter any issues:
-1. Take screenshots of any error messages
-2. Document the steps that led to the error
-3. Share in the WhatsApp group or bring to class
-
-## Support
-
-Need immediate help? Join our WhatsApp support group: [Link will be provided in class]
+## Need Help?
+- Join our WhatsApp group for immediate assistance
 
 ---
-
 Last updated: January 2024
 
 
-I've created a GitHub Pages-friendly markdown document with the setup instructions. You can share this link with your students for easy reference. Would you like me to add any additional sections or modify any part of the guide?
-
-The guide includes all necessary steps while maintaining a clean, organized structure that's easy to follow. Students can bookmark it and refer back whenever needed.
+Would you like me to add any additional sections or modify any part of this simplified guide?
