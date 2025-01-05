@@ -1,6 +1,6 @@
 ## Deep Dive into Java 8+ Features: Lambdas, Streams, and Optional
 
-###Understanding Java 8+ Features with Examples
+### Understanding Java 8+ Features with Examples
 
 Java 8 brought revolutionary changes to the language, introducing features that make code more concise, expressive, and functional. In this post, we will deep dive into three significant features: **Lambdas**, **Streams**, and **Optional**, with real-world examples.
 
