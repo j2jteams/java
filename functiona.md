@@ -98,31 +98,64 @@ Higher-order functions accept other functions as arguments or return them. In tr
 #### Example: Custom Sorting with Lambdas
 
 ```java
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.function.Predicate;
 
-public class HigherOrderFunctionsExample {
+public class HigherOrderFunctionExample {
+
+    // Pre-Java 8 approach
+    interface OldPredicate {
+        boolean test(int value);
+    }
+
+    static List<Integer> oldFilterList(List<Integer> list, OldPredicate predicate) {
+        List<Integer> result = new ArrayList<>();
+        for (Integer num : list) {
+            if (predicate.test(num)) {
+                result.add(num);
+            }
+        }
+        return result;
+    }
+
+    // Java 8+ approach
+    static List<Integer> newFilterList(List<Integer> list, Predicate<Integer> predicate) {
+        List<Integer> result = new ArrayList<>();
+        for (Integer num : list) {
+            if (predicate.test(num)) {
+                result.add(num);
+            }
+        }
+        return result;
+    }
+
     public static void main(String[] args) {
-        List<String> names = Arrays.asList("Alice", "Bob", "Charlie", "David");
+        List<Integer> numbers = List.of(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 
-        // Traditional Approach
-        Collections.sort(names, new Comparator<String>() {
+        System.out.println("Pre-Java 8 approach:");
+        List<Integer> oldEvenNumbers = oldFilterList(numbers, new OldPredicate() {
             @Override
-            public int compare(String o1, String o2) {
-                return o2.compareTo(o1);
+            public boolean test(int value) {
+                return value % 2 == 0;
             }
         });
-        System.out.println("Traditional Sorting: " + names);
+        System.out.println("Even numbers: " + oldEvenNumbers);
 
-        // Functional Approach with Lambda
-        names.sort((a, b) -> b.compareTo(a));
-        System.out.println("Lambda Sorting: " + names);
+        System.out.println("\nJava 8+ approach:");
+        List<Integer> newEvenNumbers = newFilterList(numbers, n -> n % 2 == 0);
+        System.out.println("Even numbers: " + newEvenNumbers);
 
-        // Functional Approach with Method Reference
-        names.sort(String::compareTo);
-        System.out.println("Method Reference Sorting: " + names);
+        // Additional example using Java 8+ approach
+        List<Integer> greaterThanFive = newFilterList(numbers, n -> n > 5);
+        System.out.println("Numbers greater than 5: " + greaterThanFive);
     }
 }
 ```
+1. Pre-Java 8 approach using a custom interface and anonymous class.
+2. Java 8+ approach using the Predicate functional interface and lambda expressions.
+3. Both approaches implement a higher-order function filterList that takes a list and a behavior (predicate) as parameters.
+4. The Java 8+ version is more concise and flexible, allowing easy creation of different predicates using lambda expressions14.
 
 ### 3. Declarative Programming: What, Not How
 
@@ -131,31 +164,63 @@ Declarative programming focuses on describing *what* to do instead of *how* to d
 #### Example: Filtering and Transforming Data
 
 ```java
-import java.util.*;
-import java.util.stream.*;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 
-public class DeclarativeExample {
+public class DeclarativeVsImperativeExample {
+
     public static void main(String[] args) {
-        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6);
+        List<Integer> numbers = Arrays.asList(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
 
-        // Traditional Approach
-        List<Integer> evenNumbers = new ArrayList<>();
-        for (int number : numbers) {
+        System.out.println("Imperative approach:");
+        List<Integer> evenSquaresImperative = getEvenSquaresImperative(numbers);
+        System.out.println(evenSquaresImperative);
+
+        System.out.println("\nDeclarative approach:");
+        List<Integer> evenSquaresDeclarative = getEvenSquaresDeclarative(numbers);
+        System.out.println(evenSquaresDeclarative);
+    }
+
+    // Imperative approach
+    private static List<Integer> getEvenSquaresImperative(List<Integer> numbers) {
+        List<Integer> result = new java.util.ArrayList<>();
+        for (Integer number : numbers) {
             if (number % 2 == 0) {
-                evenNumbers.add(number * number);
+                result.add(number * number);
             }
         }
-        System.out.println("Traditional: " + evenNumbers);
+        return result;
+    }
 
-        // Declarative Approach
-        List<Integer> squares = numbers.stream()
-                                       .filter(n -> n % 2 == 0)
-                                       .map(n -> n * n)
-                                       .collect(Collectors.toList());
-        System.out.println("Stream: " + squares);
+    // Declarative approach
+    private static List<Integer> getEvenSquaresDeclarative(List<Integer> numbers) {
+        return numbers.stream()
+                .filter(n -> n % 2 == 0)
+                .map(n -> n * n)
+                .collect(Collectors.toList());
     }
 }
 ```
+#### In this imperative approach:
+1. We create a new list to store the results.
+2. We explicitly iterate through each number in the input list.
+3. We check if each number is even using an if statement.
+4. If it's even, we square it and add it to the result list.
+5. Finally, we return the result list.
+This approach tells the computer exactly how to perform each step of the process.
+
+#### In this declarative approach:
+1. We start with the input list and create a stream from it.
+2. We declare that we want to filter the stream to keep only even numbers.
+3. We declare that we want to transform (map) each remaining number to its square.
+4. We declare that we want to collect the results into a list.
+
+#### The key differences are:
+1. We don't explicitly manage the iteration; the stream handles that for us.
+2. We don't create an intermediate list; the stream pipeline manages the data flow.
+3. We describe what we want (even numbers squared), not how to do it step-by-step.
+4. The code reads more like a problem statement: "Give me a list of even numbers squared."
 
 ### 4. Pure Functions: Ensuring Predictability
 
@@ -165,23 +230,65 @@ The concept of pure functions existed in Java before Java 8, but Java 8 introduc
 #### Example: Pure Function
 
 ```java
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Function;
+
 public class PureFunctionExample {
-    public static int square(int x) {
+
+    public static void main(String[] args) {
+        List<Integer> numbers = List.of(1, 2, 3, 4, 5);
+
+        System.out.println("Before Java 8:");
+        List<Integer> squaredBefore = squareListBefore(numbers);
+        System.out.println(squaredBefore);
+
+        System.out.println("\nAfter Java 8:");
+        List<Integer> squaredAfter = squareListAfter(numbers);
+        System.out.println(squaredAfter);
+    }
+
+    // Pure function before Java 8
+    private static List<Integer> squareListBefore(List<Integer> numbers) {
+        List<Integer> result = new ArrayList<>();
+        for (Integer number : numbers) {
+            result.add(square(number));
+        }
+        return result;
+    }
+
+    // Helper pure function
+    private static int square(int x) {
         return x * x;
     }
 
-    public static void main(String[] args) {
-        //Old way
-        int result = square(5);
-        System.out.println("The square of 5 is: " + result);
+    // Pure function after Java 8
+    private static List<Integer> squareListAfter(List<Integer> numbers) {
+        return numbers.stream()
+                .map(x -> x * x)
+                .toList();
     }
-        //New way
-        Function<Integer, Integer> square = x -> x * x;
-        int result = square.apply(5);
-        System.out.println("The square of 5 is: " + result);
-    }
+}
 ```
+
+This example demonstrates pure functions before and after Java 8:
+
+1. Before Java 8:
+   - We use a traditional loop to iterate through the list.
+   - The `squareListBefore` function is pure as it doesn't modify the input list and always produces the same output for the same input.
+   - The `square` helper function is also pure, demonstrating function composition.
+
+2. After Java 8:
+   - We use the Stream API and lambda expressions.
+   - The `squareListAfter` function is pure, concise, and more declarative.
+   - It uses the `map` operation with a lambda expression to square each number.
+
+Both approaches ensure predictability by:
+   - Not modifying the input list (immutability).
+   - Always producing the same output for the same input (determinism).
+   - Having no side effects.
+
+The Java 8 version is more concise and leverages functional programming constructs, making it easier to read and maintain while preserving the purity of the function.
 
 ### 5. Lazy Evaluation: Optimizing Performance
 
