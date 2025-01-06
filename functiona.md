@@ -12,7 +12,8 @@ Immutability ensures that objects, once created, cannot be modified. In traditio
 
 #### Example: Immutable Class
 
-```javaimport java.util.Collections;
+```java
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
