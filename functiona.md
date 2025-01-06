@@ -196,14 +196,18 @@ public class StreamLazyEvaluationExample {
 
 ```
 In this example, the filter and map operations are lazy. They don't execute until the terminal operation findFirst() is called. Moreover, only the elements needed to produce the result are processed.
-## Benefits
-Performance Optimization: Lazy evaluation can improve performance by avoiding unnecessary computations.
-Working with Infinite Streams: It allows for the creation of potentially infinite streams of data.
-Memory Efficiency: Only the required data is processed and stored in memory.
-## Challenges
-Debugging: The delayed execution can make debugging more challenging.
-Side Effects: Care must be taken with side effects in lazy operations, as their execution order may not be as expected.
-Resource Management: When working with resources (like file handles), lazy evaluation requires careful management to ensure proper closure.
+#### Benefits
+1. **Performance Optimization:**  Lazy evaluation can improve performance by avoiding unnecessary computations.
+
+2. **Working with Infinite Streams:** It allows for the creation of potentially infinite streams of data.
+
+3. **Memory Efficiency:** Only the required data is processed and stored in memory.
+#### Challenges
+1. **Debugging:** The delayed execution can make debugging more challenging.
+
+2. **Side Effects:** Care must be taken with side effects in lazy operations, as their execution order may not be as expected.
+
+3. **Resource Management:** When working with resources (like file handles), lazy evaluation requires careful management to ensure proper closure.
 Understanding and utilizing lazy evaluation in Java can lead to more efficient and expressive code, particularly when working with large datasets or complex computations.
 
 ### Conclusion
