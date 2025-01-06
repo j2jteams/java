@@ -12,50 +12,83 @@ Immutability ensures that objects, once created, cannot be modified. In traditio
 
 #### Example: Immutable Class
 
-```java
-final class Employee {
-    private final String name;
-    private final double salary;
-
-    public Employee(String name, double salary) {
-        this.name = name;
-        this.salary = salary;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public double getSalary() {
-        return salary;
-    }
-
-    public Employee withSalary(double newSalary) {
-        return new Employee(this.name, newSalary);
-    }
-
-    @Override
-    public String toString() {
-        return "Employee{name='" + name + "', salary=" + salary + '}';
-    }
-}
+```javaimport java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class ImmutabilityExample {
+
+    // Pre-Java 8 immutable class
+    public static final class ImmutablePersonPreJava8 {
+        private final String name;
+        private final int age;
+        private final Map<String, String> attributes;
+
+        public ImmutablePersonPreJava8(String name, int age, Map<String, String> attributes) {
+            this.name = name;
+            this.age = age;
+            this.attributes = Collections.unmodifiableMap(new HashMap<>(attributes));
+        }
+
+        public String getName() { return name; }
+        public int getAge() { return age; }
+        public Map<String, String> getAttributes() { return attributes; }
+
+        @Override
+        public String toString() {
+            return "ImmutablePersonPreJava8{name='" + name + "', age=" + age + ", attributes=" + attributes + '}';
+        }
+    }
+
+    // Java 16+ immutable record
+    public record ImmutablePersonJava16(String name, int age, Map<String, String> attributes) {
+        public ImmutablePersonJava16 {
+            attributes = Map.copyOf(attributes);
+        }
+
+        public ImmutablePersonJava16 withAge(int newAge) {
+            return new ImmutablePersonJava16(this.name, newAge, this.attributes);
+        }
+    }
+
     public static void main(String[] args) {
-        Employee emp = new Employee("Alice", 50000);
+        // Pre-Java 8 approach
+        Map<String, String> attrsOld = new HashMap<>();
+        attrsOld.put("eyeColor", "blue");
+        attrsOld.put("height", "180cm");
 
-        // Traditional Mutation Approach
-        System.out.println("Original: " + emp);
-        Employee updatedEmp = emp.withSalary(60000);
-        System.out.println("Updated: " + updatedEmp);
+        ImmutablePersonPreJava8 personOld = new ImmutablePersonPreJava8("John", 30, attrsOld);
 
-        // Functional Style Approach (New Way)
-        Function<Employee, Employee> giveRaise = e -> e.withSalary(e.getSalary() + 10000);
-        Employee raisedEmp = giveRaise.apply(emp);
-        System.out.println("After Raise: " + raisedEmp);
+        System.out.println("Pre-Java 8 Person: " + personOld);
+
+        try {
+            personOld.getAttributes().put("weight", "75kg");
+        } catch (UnsupportedOperationException e) {
+            System.out.println("Cannot modify pre-Java 8 attributes: " + e.getMessage());
+        }
+
+        // Java 16+ approach
+        Map<String, String> attrsNew = Map.of("eyeColor", "brown", "height", "175cm");
+        ImmutablePersonJava16 personNew = new ImmutablePersonJava16("Jane", 25, attrsNew);
+
+        System.out.println("Java 16+ Person: " + personNew);
+
+        try {
+            personNew.attributes().put("weight", "65kg");
+        } catch (UnsupportedOperationException e) {
+            System.out.println("Cannot modify Java 16+ attributes: " + e.getMessage());
+        }
+
+        // Demonstrating the 'with' method in Java 16+ approach
+        ImmutablePersonJava16 olderPersonNew = personNew.withAge(26);
+        System.out.println("Older Java 16+ Person: " + olderPersonNew);
     }
 }
 ```
+1. The pre-Java 8 approach using a final class with private final fields and defensive copying.
+2. The Java 16+ approach using a record, which provides built-in immutability.
+3. Both approaches prevent modification of the attributes map.
+4. The Java 16+ version demonstrates the use of a 'with' method to create a new instance with a modified value.
 
 ### 2. Higher-Order Functions: Passing Behavior
 
@@ -126,31 +159,27 @@ public class DeclarativeExample {
 ### 4. Pure Functions: Ensuring Predictability
 
 A pure function is deterministic, producing the same output for the same input and having no side effects.
+The concept of pure functions existed in Java before Java 8, but Java 8 introduced features that made it easier to write and use pure functions. Let's compare pure functions before and after Java 8:
 
-#### Example: Pure Function for Discounts
+#### Example: Pure Function
 
 ```java
+import java.util.function.Function;
 public class PureFunctionExample {
-    public static double calculateDiscount(double price, double discountRate) {
-        return price * (1 - discountRate);
+    public static int square(int x) {
+        return x * x;
     }
 
     public static void main(String[] args) {
-        double price = 100.0;
-        double discountRate = 0.2;
-
-        // Traditional Approach
-        double discountedPrice = price;
-        if (discountRate > 0) {
-            discountedPrice = price - (price * discountRate);
-        }
-        System.out.println("Traditional Discounted Price: " + discountedPrice);
-
-        // Functional Approach (Pure Function)
-        double pureDiscountedPrice = calculateDiscount(price, discountRate);
-        System.out.println("Functional Discounted Price: " + pureDiscountedPrice);
+        //Old way
+        int result = square(5);
+        System.out.println("The square of 5 is: " + result);
     }
-}
+        //New way
+        Function<Integer, Integer> square = x -> x * x;
+        int result = square.apply(5);
+        System.out.println("The square of 5 is: " + result);
+    }
 ```
 
 ### 5. Lazy Evaluation: Optimizing Performance
