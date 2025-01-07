@@ -101,6 +101,7 @@ Higher-order functions accept other functions as arguments or return them. In tr
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 public class HigherOrderFunctionExample {
 
@@ -121,13 +122,9 @@ public class HigherOrderFunctionExample {
 
     // Java 8+ approach
     static List<Integer> newFilterList(List<Integer> list, Predicate<Integer> predicate) {
-        List<Integer> result = new ArrayList<>();
-        for (Integer num : list) {
-            if (predicate.test(num)) {
-                result.add(num);
-            }
-        }
-        return result;
+        return list.stream()
+                   .filter(predicate)
+                   .collect(Collectors.toList());
     }
 
     public static void main(String[] args) {
@@ -151,6 +148,7 @@ public class HigherOrderFunctionExample {
         System.out.println("Numbers greater than 5: " + greaterThanFive);
     }
 }
+
 ```
 1. Pre-Java 8 approach using a custom interface and anonymous class.
 2. Java 8+ approach using the Predicate functional interface and lambda expressions.
