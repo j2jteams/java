@@ -1,0 +1,135 @@
+Great! We'll start from the **core Spring framework** without Spring Boot, using **XML-based configuration** first. This will give you a strong foundation in dependency injection (DI) and bean management before moving on to annotation-based and Spring Boot configurations.
+
+---
+
+## **Step 1: Setting Up a Basic Spring Project (Without Spring Boot)**  
+
+### **1. Create a New Java Project**
+Since we're not using Spring Boot, we need to set up a **basic Java project** manually.
+
+#### **Option 1: Using Maven (Recommended)**
+1. Create a new Maven project.
+2. Add the following **Spring Core dependencies** in `pom.xml`:
+   ```xml
+   <dependencies>
+       <!-- Spring Core -->
+       <dependency>
+           <groupId>org.springframework</groupId>
+           <artifactId>spring-context</artifactId>
+           <version>5.3.32</version>
+       </dependency>
+
+       <!-- Spring Beans -->
+       <dependency>
+           <groupId>org.springframework</groupId>
+           <artifactId>spring-beans</artifactId>
+           <version>5.3.32</version>
+       </dependency>
+
+       <!-- Logging (Optional but Recommended) -->
+       <dependency>
+           <groupId>org.slf4j</groupId>
+           <artifactId>slf4j-api</artifactId>
+           <version>1.7.36</version>
+       </dependency>
+   </dependencies>
+   ```
+3. Run `mvn clean install` to download dependencies.
+
+#### **Option 2: Using a Plain Java Project**
+1. Download the Spring JARs manually from [Spring Releases](https://repo.spring.io/release/org/springframework/).
+2. Add them to your project's classpath.
+
+---
+
+## **Step 2: Writing an XML-Based Spring Configuration**
+
+### **1. Define a Simple Service Class (`StudentService.java`)**
+```java
+package com.example.service;
+
+public class StudentService {
+    public void displayStudent() {
+        System.out.println("Student: John Doe, Age: 20");
+    }
+}
+```
+- This is a simple class with a method to display student information.
+
+---
+
+### **2. Create an XML Configuration File (`spring-config.xml`)**
+Create `spring-config.xml` inside the `resources` folder.
+
+```xml
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Define a bean for StudentService -->
+    <bean id="studentService" class="com.example.service.StudentService"/>
+</beans>
+```
+- The `<bean>` tag registers `StudentService` as a **Spring-managed bean**.
+
+---
+
+### **3. Load Spring Configuration in a Java Class**
+Create a `MainApp.java` file to load and use the Spring container.
+
+```java
+package com.example;
+
+import com.example.service.StudentService;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+
+public class MainApp {
+    public static void main(String[] args) {
+        // Load Spring configuration from XML
+        ApplicationContext context = new ClassPathXmlApplicationContext("spring-config.xml");
+
+        // Retrieve the bean from Spring container
+        StudentService studentService = (StudentService) context.getBean("studentService");
+
+        // Call the method
+        studentService.displayStudent();
+
+        // Close context
+        ((ClassPathXmlApplicationContext) context).close();
+    }
+}
+```
+- `ClassPathXmlApplicationContext("spring-config.xml")`: Loads the XML configuration.
+- `context.getBean("studentService")`: Retrieves the `StudentService` bean.
+- `displayStudent()`: Calls the method to display the student info.
+
+---
+
+### **4. Run the Application**
+When you run `MainApp.java`, you should see:
+```
+Student: John Doe, Age: 20
+```
+
+---
+
+## **Step 3: Understanding How It Works**
+| Concept | Description |
+|---------|------------|
+| `ApplicationContext` | The Spring container that manages beans. |
+| `spring-config.xml` | An XML file defining all Spring-managed beans. |
+| `<bean>` | Declares a Spring bean and its fully qualified class name. |
+| `context.getBean()` | Retrieves a bean from the Spring container. |
+
+---
+
+### **Next Steps**
+Now that we have a basic Spring setup using XML, we can explore:
+1. **Constructor & Setter Injection** in XML.
+2. **Bean Scope (`singleton`, `prototype`, etc.)**.
+3. **Spring AOP & Lifecycle Methods**.
+
+Would you like to proceed with **Dependency Injection (DI) in XML** or explore something else first?
