@@ -132,4 +132,3 @@ Now that we have a basic Spring setup using XML, we can explore:
 2. **Bean Scope (`singleton`, `prototype`, etc.)**  
 3. **Spring AOP & Lifecycle Methods**  
 
-Would you like to proceed with **Dependency Injection (DI) in XML** or explore something else first? 🚀
