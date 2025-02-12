@@ -1,7 +1,3 @@
-Great! We'll start from the **core Spring framework** without Spring Boot, using **XML-based configuration** first. This will give you a strong foundation in dependency injection (DI) and bean management before moving on to annotation-based and Spring Boot configurations.
-
----
-
 ## **Step 1: Setting Up a Basic Spring Project (Without Spring Boot)**  
 
 ### **1. Create a New Java Project**
