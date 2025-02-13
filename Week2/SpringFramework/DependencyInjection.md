@@ -227,4 +227,3 @@ Now that you understand **constructor & setter injection**, we can explore:
 ✅ **Bean Lifecycle Methods (`init-method`, `destroy-method`)**  
 ✅ **Autowiring Beans in XML**  
 
-Which one would you like to explore next? 🚀
